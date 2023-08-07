@@ -4,8 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -13,15 +15,16 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nickname;
-    final private String email;
-    final private LocalDate birthday;
-    final private LocalDateTime createdAt;
+    private String email;
+    private LocalDate birthday;
+    private LocalDateTime createdAt;
 
     final private static Long NAME_MAX_LENGTH = 10L;
 

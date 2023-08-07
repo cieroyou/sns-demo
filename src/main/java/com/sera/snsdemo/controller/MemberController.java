@@ -1,20 +1,26 @@
 package com.sera.snsdemo.controller;
 
+import com.sera.snsdemo.domain.member.dto.MemberDto;
 import com.sera.snsdemo.domain.member.dto.RegisterMemberCommand;
-import com.sera.snsdemo.domain.member.entity.Member;
+import com.sera.snsdemo.domain.member.service.MemberReadService;
 import com.sera.snsdemo.domain.member.service.MemberWriteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 public class MemberController {
     private final MemberWriteService memberWriteService;
+    private final MemberReadService memberReadService;
 
     @PostMapping("/members")
-    public Member register(@RequestBody RegisterMemberCommand command){
-        return memberWriteService.register(command);
+    public MemberDto register(@RequestBody RegisterMemberCommand command) {
+        var member =  memberWriteService.register(command);
+        return new MemberDto(member);
+    }
+
+    @GetMapping("/members/{id}")
+    public MemberDto get(@PathVariable Long id) {
+        return memberReadService.get(id);
     }
 }
