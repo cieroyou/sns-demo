@@ -18,9 +18,14 @@ public class MemberController {
         var member = memberWriteService.register(command);
         return new MemberDto(member);
     }
-
     @GetMapping("/members/{id}")
     public MemberDto get(@PathVariable Long id) {
+        return memberReadService.get(id);
+    }
+
+    @PostMapping("/members/{id}/nickname")
+    public MemberDto changeNickname(@PathVariable Long id, @RequestBody String nickname){
+        memberWriteService.changeNickname(id, nickname);
         return memberReadService.get(id);
     }
 }
