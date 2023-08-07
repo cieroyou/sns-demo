@@ -38,3 +38,5 @@ out/
 
 ### MapStruct ###
 generated/
+
+/docker-compose/mysql
