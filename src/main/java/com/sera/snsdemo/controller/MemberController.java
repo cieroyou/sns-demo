@@ -15,7 +15,7 @@ public class MemberController {
 
     @PostMapping("/members")
     public MemberDto register(@RequestBody RegisterMemberCommand command) {
-        var member =  memberWriteService.register(command);
+        var member = memberWriteService.register(command);
         return new MemberDto(member);
     }
 
