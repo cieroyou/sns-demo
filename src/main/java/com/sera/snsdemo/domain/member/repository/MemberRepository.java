@@ -1,15 +1,10 @@
 package com.sera.snsdemo.domain.member.repository;
 
 import com.sera.snsdemo.domain.member.entity.Member;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public class MemberRepository {
-    public Member save(Member member) {
-        return Member.builder()
-                .nickname(member.getNickname())
-                .email(member.getEmail())
-                .birthday(member.getBirthday())
-                .build();
-    }
+public interface MemberRepository extends JpaRepository<Member, Long> {
+
+
 }
+
