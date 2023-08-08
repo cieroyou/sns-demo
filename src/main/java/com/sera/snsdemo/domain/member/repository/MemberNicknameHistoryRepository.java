@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface MemberNicknameHistoryRepository extends JpaRepository<MemberNicknameHistory, Long> {
     Optional<MemberNicknameHistory> findById(Long id);
+
     List<MemberNicknameHistory> findAllByMemberId(Long memberId);
 }
 
