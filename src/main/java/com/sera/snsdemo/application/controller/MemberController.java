@@ -1,4 +1,4 @@
-package com.sera.snsdemo.controller;
+package com.sera.snsdemo.application.controller;
 
 import com.sera.snsdemo.domain.member.dto.MemberDto;
 import com.sera.snsdemo.domain.member.dto.MemberNicknameHistoryDto;
