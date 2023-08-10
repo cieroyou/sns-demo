@@ -2,6 +2,8 @@ package com.sera.snsdemo.domain.post.repository;
 
 import com.sera.snsdemo.domain.post.dto.DailyPostCount;
 import com.sera.snsdemo.domain.post.entity.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -35,8 +37,17 @@ public interface PostRepository extends JpaRepository<Post, Long> {
                     + "FROM Post p "
                     + "WHERE memberId = :memberId AND createdDate BETWEEN :firstDate AND :lastDate "
                     + "GROUP BY p.memberId, p.createdDate"
-            
+
             , nativeQuery = false)
     List<DailyPostCount> groupByCreateDate(Long memberId, LocalDate firstDate, LocalDate lastDate);
+
+    /**
+     * SELECT * FROM Posts WHERE memberId = ${memberId } LIMIT ${size} OFFSET ${offset}
+     *
+     * @param memberId
+     * @param pageable
+     * @return
+     */
+    Page<Post> findAllByMemberId(Long memberId, Pageable pageable);
 }
 
