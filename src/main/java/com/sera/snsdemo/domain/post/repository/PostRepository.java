@@ -42,7 +42,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<DailyPostCount> groupByCreateDate(Long memberId, LocalDate firstDate, LocalDate lastDate);
 
     /**
-     * SELECT * FROM Posts WHERE memberId = ${memberId } LIMIT ${size} OFFSET ${offset}
+     * SELECT * FROM Posts WHERE memberId = ${memberId } LIMIT ${size}, ${offset}
      *
      * @param memberId
      * @param pageable

@@ -9,6 +9,7 @@ import com.sera.snsdemo.domain.post.service.PostWriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class PostController {
     @GetMapping("/members/{memberId}")
     public Page<Post> getPosts(@PathVariable Long memberId,
                                @RequestParam Integer page, @RequestParam Integer size) {
-        return postReadService.getPosts(memberId, PageRequest.of(page, size));
+        Sort sort = Sort.by("id").descending();
+        return postReadService.getPosts(memberId, PageRequest.of(page, size, sort));
     }
 
 }
