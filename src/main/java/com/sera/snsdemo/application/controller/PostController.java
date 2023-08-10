@@ -6,6 +6,8 @@ import com.sera.snsdemo.domain.post.dto.PostCommand;
 import com.sera.snsdemo.domain.post.entity.Post;
 import com.sera.snsdemo.domain.post.service.PostReadService;
 import com.sera.snsdemo.domain.post.service.PostWriteService;
+import com.sera.snsdemo.util.CursorRequest;
+import com.sera.snsdemo.util.PageCursor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,4 +40,10 @@ public class PostController {
         return postReadService.getPosts(memberId, PageRequest.of(page, size, sort));
     }
 
+    @GetMapping("/members/{memberId}/by-cursor")
+    public PageCursor<Post> getPostsByCursor(@PathVariable Long memberId,
+                                             @RequestBody CursorRequest cursorRequest) {
+        Sort sort = Sort.by("id").descending();
+        return postReadService.getPosts(memberId, cursorRequest);
+    }
 }
