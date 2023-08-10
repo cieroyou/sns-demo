@@ -23,12 +23,19 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      * + "WHERE memberId = :memberId AND createdDate BETWEEN :firstDate AND :lastDate "
      * + "GROUP BY p.memberId, p.createdDate"
      */
+
+//    value = "SELECT new com.sera.snsdemo.domain.post.dto.DailyPostCount("
+//            + "p.memberId as memberId, p.createdDate as date, count(p.id) as postCount) "
+//            + "FROM Post p "
+//            + "WHERE memberId = :memberId AND createdDate BETWEEN :firstDate AND :lastDate "
+//            + "GROUP BY p.memberId, p.createdDate"
     @Query(
             value = "SELECT new com.sera.snsdemo.domain.post.dto.DailyPostCount("
                     + "p.memberId as memberId, p.createdDate as date, count(p.id) as postCount) "
                     + "FROM Post p "
                     + "WHERE memberId = :memberId AND createdDate BETWEEN :firstDate AND :lastDate "
                     + "GROUP BY p.memberId, p.createdDate"
+            
             , nativeQuery = false)
     List<DailyPostCount> groupByCreateDate(Long memberId, LocalDate firstDate, LocalDate lastDate);
 }
