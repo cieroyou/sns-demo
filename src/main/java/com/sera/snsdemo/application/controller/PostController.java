@@ -1,5 +1,6 @@
 package com.sera.snsdemo.application.controller;
 
+import com.sera.snsdemo.application.usecase.GetTimelinePostsUsecase;
 import com.sera.snsdemo.domain.post.dto.DailyPostCount;
 import com.sera.snsdemo.domain.post.dto.DailyPostCountRequest;
 import com.sera.snsdemo.domain.post.dto.PostCommand;
@@ -22,6 +23,7 @@ import java.util.List;
 public class PostController {
     private final PostWriteService postWriteService;
     private final PostReadService postReadService;
+    private final GetTimelinePostsUsecase getTimelinePostsUsecase;
 
     @PostMapping()
     public Long register(@RequestBody PostCommand command) {
@@ -43,7 +45,19 @@ public class PostController {
     @GetMapping("/members/{memberId}/by-cursor")
     public PageCursor<Post> getPostsByCursor(@PathVariable Long memberId,
                                              @RequestBody CursorRequest cursorRequest) {
-        Sort sort = Sort.by("id").descending();
         return postReadService.getPosts(memberId, cursorRequest);
+    }
+
+    /**
+     * member가 팔로잉하는 사람들이 작성한 게시글 목록
+     *
+     * @param memberId
+     * @param cursorRequest
+     * @return
+     */
+    @GetMapping("/members/{memberId}/timeline")
+    public PageCursor<Post> getTimeline(@PathVariable Long memberId,
+                                        @RequestBody CursorRequest cursorRequest) {
+        return getTimelinePostsUsecase.execute(memberId, cursorRequest);
     }
 }
