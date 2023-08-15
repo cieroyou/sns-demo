@@ -1,5 +1,6 @@
 package com.sera.snsdemo.application.controller;
 
+import com.sera.snsdemo.application.usecase.CreatePostUsecase;
 import com.sera.snsdemo.application.usecase.GetTimelinePostsUsecase;
 import com.sera.snsdemo.domain.post.dto.DailyPostCount;
 import com.sera.snsdemo.domain.post.dto.DailyPostCountRequest;
@@ -24,10 +25,11 @@ public class PostController {
     private final PostWriteService postWriteService;
     private final PostReadService postReadService;
     private final GetTimelinePostsUsecase getTimelinePostsUsecase;
+    private final CreatePostUsecase createPostUsecase;
 
     @PostMapping()
     public Long register(@RequestBody PostCommand command) {
-        return postWriteService.create(command);
+        return createPostUsecase.execute(command);
     }
 
     @GetMapping("/daily-post-count")

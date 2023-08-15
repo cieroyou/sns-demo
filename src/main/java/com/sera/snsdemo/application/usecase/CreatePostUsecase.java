@@ -15,10 +15,11 @@ public class CreatePostUsecase {
     private final PostWriteService postWriteService;
     private final TimelineWriteService timelineWriteService;
 
-    public void execute(PostCommand postCommand) {
+    public Long execute(PostCommand postCommand) {
         var postId = postWriteService.create(postCommand);
         var followerMemberIds = followReadService.getFollowers(postCommand.memberId())
                 .stream().map(FollowDto::fromMemberId).toList();
         timelineWriteService.deliveryTimeline(postId, followerMemberIds);
+        return postId;
     }
 }
