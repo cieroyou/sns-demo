@@ -50,6 +50,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
      */
     Page<Post> findAllByMemberId(Long memberId, Pageable pageable);
 
+    List<Post> findAllByIdIn(List<Long> ids);
+
     // ORDER BY id desc LIMIT {size}
     // todo: size 를 동적으로, jpql 로 변경하기
     List<Post> findTop10ByMemberIdOrderByIdDesc(Long memberId);

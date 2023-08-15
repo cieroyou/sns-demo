@@ -27,6 +27,10 @@ public class PostReadService {
         return postRepository.findAllByMemberId(memberId, pageRequest);
     }
 
+    public List<Post> getPosts(List<Long> ids) {
+        return postRepository.findAllByIdIn(ids);
+    }
+
     // id를 cursor key 로 사용
     // 1) 키가 있을 때
     // SELECT * FROM post WHERE memberId = 4 AND id > 100
@@ -43,6 +47,7 @@ public class PostReadService {
         var nextKey = getNextKey(posts);
         return new PageCursor<>(cursorRequest.next(nextKey), posts);
     }
+
 
     private long getNextKey(List<Post> posts) {
         return posts.stream()

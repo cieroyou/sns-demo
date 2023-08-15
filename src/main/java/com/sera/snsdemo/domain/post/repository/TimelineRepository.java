@@ -10,7 +10,7 @@ public interface TimelineRepository extends JpaRepository<Timeline, Long> {
 
     // WHERE memberId = {memberId} And id < {id}
     // ORDER BY id desc LIMIT {size}
-     // todo: size 를 동적으로, jpql 로 변경하기
+    // todo: size 를 동적으로, jpql 로 변경하기
     List<Timeline> findTop10ByIdLessThanAndMemberIdOrderByIdDesc(Long id, Long memberId);
 }
 
