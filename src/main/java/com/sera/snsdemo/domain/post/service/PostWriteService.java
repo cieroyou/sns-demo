@@ -22,6 +22,7 @@ public class PostWriteService {
         return post.getId();
     }
 
+    @Transactional
     public void likePost(Long postId) {
         var post = postRepository.findById(postId)
                 .orElseThrow(() ->

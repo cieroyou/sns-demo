@@ -15,7 +15,9 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Post> findById(Long id);
+
     /**
      * DailyPostCount 가 record 일 때
      * "SELECT new com.sera.snsdemo.domain.post.dto.DailyPostCount("
