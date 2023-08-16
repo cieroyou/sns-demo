@@ -62,4 +62,9 @@ public class PostController {
                                         @RequestBody CursorRequest cursorRequest) {
         return getTimelinePostsUsecase.executeByTimeline(memberId, cursorRequest);
     }
+
+    @PostMapping("/{postId}/like")
+    public void incrementLike(@PathVariable Long postId) {
+        postWriteService.likePost(postId);
+    }
 }
