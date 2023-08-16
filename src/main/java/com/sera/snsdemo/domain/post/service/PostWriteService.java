@@ -27,7 +27,7 @@ public class PostWriteService {
         var post = postRepository.findById(postId)
                 .orElseThrow(() ->
                         new EntityNotFoundException(String.format("해당 Post(%d)가 존재하지 않습니다.", postId)));
-        post.incrementLikeCount();검
+        post.incrementLikeCount();
         postRepository.save(post);
     }
 }
