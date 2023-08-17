@@ -1,5 +1,6 @@
 package com.sera.snsdemo.application.controller;
 
+import com.sera.snsdemo.application.usecase.CreatePostLikeUsecase;
 import com.sera.snsdemo.application.usecase.CreatePostUsecase;
 import com.sera.snsdemo.application.usecase.GetTimelinePostsUsecase;
 import com.sera.snsdemo.domain.post.dto.DailyPostCount;
@@ -26,6 +27,7 @@ public class PostController {
     private final PostReadService postReadService;
     private final GetTimelinePostsUsecase getTimelinePostsUsecase;
     private final CreatePostUsecase createPostUsecase;
+    private final CreatePostLikeUsecase createPostLikeUsecase;
 
     @PostMapping()
     public Long register(@RequestBody PostCommand command) {
@@ -63,8 +65,13 @@ public class PostController {
         return getTimelinePostsUsecase.executeByTimeline(memberId, cursorRequest);
     }
 
-    @PostMapping("/{postId}/like")
+    @PostMapping("/{postId}/like/v1")
     public void incrementLike(@PathVariable Long postId) {
         postWriteService.likePost(postId);
+    }
+
+    @PostMapping("/{postId}/like/v2")
+    public void incrementLikeV2(@PathVariable Long postId, @RequestParam Long memberId) {
+        createPostLikeUsecase.execute(postId, memberId);
     }
 }
