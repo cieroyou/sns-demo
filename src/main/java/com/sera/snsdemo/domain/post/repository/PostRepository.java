@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Lock(LockModeType.OPTIMISTIC)
     Optional<Post> findById(Long id);
 
     /**
@@ -46,7 +47,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
                     + "GROUP BY p.memberId, p.createdDate"
 
             , nativeQuery = false)
-    List<DailyPostCount> groupByCreateDate(Long memberId, LocalDate firstDate, LocalDate lastDate);
+    List<DailyPostCount> groupByCreateDate(@Param("memberId") Long memberId, @Param("firstDate") LocalDate firstDate, @Param("lastDate") LocalDate lastDate);
 
     /**
      * SELECT * FROM Posts WHERE memberId = ${memberId } LIMIT ${size}, ${offset}

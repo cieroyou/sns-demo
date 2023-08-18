@@ -2,10 +2,13 @@ package com.sera.snsdemo.domain.post.service;
 
 import com.sera.snsdemo.domain.post.dto.DailyPostCount;
 import com.sera.snsdemo.domain.post.dto.DailyPostCountRequest;
+import com.sera.snsdemo.domain.post.dto.PostDto;
 import com.sera.snsdemo.domain.post.entity.Post;
+import com.sera.snsdemo.domain.post.repository.PostLikeRepository;
 import com.sera.snsdemo.domain.post.repository.PostRepository;
 import com.sera.snsdemo.util.CursorRequest;
 import com.sera.snsdemo.util.PageCursor;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,14 +20,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostReadService {
     private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
+
+    public PostDto getPost(Long postId) {
+        var post = postRepository.findById(postId)
+                .orElseThrow(() ->
+                        new EntityNotFoundException(String.format("해당 Post(%d)가 존재하지 않습니다.", postId)));
+        var likeCount = postLikeRepository.countByPostId(post.getId());
+        return new PostDto(post, likeCount);
+    }
 
     public List<DailyPostCount> getDailyPostCount(DailyPostCountRequest request) {
         return postRepository.groupByCreateDate(
                 request.getMemberId(), request.getFirstDate(), request.getLastDate());
     }
 
-    public Page<Post> getPosts(Long memberId, PageRequest pageRequest) {
-        return postRepository.findAllByMemberId(memberId, pageRequest);
+    public Page<PostDto> getPosts(Long memberId, PageRequest pageRequest) {
+        return postRepository.findAllByMemberId(memberId, pageRequest)
+                .map(post -> new PostDto(post, postLikeRepository.countByPostId(post.getId())));
     }
 
     public List<Post> getPosts(List<Long> ids) {
