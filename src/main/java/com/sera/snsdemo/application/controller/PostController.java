@@ -6,6 +6,7 @@ import com.sera.snsdemo.application.usecase.GetTimelinePostsUsecase;
 import com.sera.snsdemo.domain.post.dto.DailyPostCount;
 import com.sera.snsdemo.domain.post.dto.DailyPostCountRequest;
 import com.sera.snsdemo.domain.post.dto.PostCommand;
+import com.sera.snsdemo.domain.post.dto.PostDto;
 import com.sera.snsdemo.domain.post.entity.Post;
 import com.sera.snsdemo.domain.post.service.PostReadService;
 import com.sera.snsdemo.domain.post.service.PostWriteService;
@@ -40,8 +41,8 @@ public class PostController {
     }
 
     @GetMapping("/members/{memberId}")
-    public Page<Post> getPosts(@PathVariable Long memberId,
-                               @RequestParam Integer page, @RequestParam Integer size) {
+    public Page<PostDto> getPosts(@PathVariable Long memberId,
+                                  @RequestParam Integer page, @RequestParam Integer size) {
         Sort sort = Sort.by("id").descending();
         return postReadService.getPosts(memberId, PageRequest.of(page, size, sort));
     }
